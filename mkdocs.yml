@@ -45,8 +45,8 @@ nav:
           - Target Device: 'Architecture/v2.0.0/target-device.md'
       - v3.0.0:
           - AiCSD Integration: 'Architecture/v3.0.0/aicsd-integration.md'
-  - Performance Tools:
-      - Benchmarking: 'performance-tools/benchmark.md'
+  #- Performance Tools:
+  #    - Benchmarking: 'performance-tools/benchmark.md'
         #      - Benchmarking APIs: 'performance-tools/api-docs.md'
   - Use Cases:
       - Automated Self Checkout:
@@ -56,6 +56,7 @@ nav:
           - Architecture: 'use-cases/loss-prevention/architecture.md'
           - Getting Started: 'use-cases/loss-prevention/getting_started.md'
           - Advanced Settings: 'use-cases/loss-prevention/advanced.md'
+          - Benchmark: 'use-cases/loss-prevention/performance.md'
       - Order Accuracy:
           - Overview: 'use-cases/order-accuracy/order-accuracy.md'
           - Getting Started: 'use-cases/order-accuracy/getting_started.md'
