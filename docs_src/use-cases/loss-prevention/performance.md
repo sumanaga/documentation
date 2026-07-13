@@ -24,113 +24,6 @@ make benchmark-quickstart
 
 **Expected results**: You'll see FPS metrics and resource utilization for each workload.
 
-## Understanding Performance Testing Types
-
-### Basic Performance Testing
-
-**Default Benchmark Command:**
-```bash
-make benchmark
-```
-
-**Configuration:**
-- Single pipeline instance (`PIPELINE_COUNT=1`) 
-- CPU-only processing (`WORKLOAD_DIST=workload_to_pipeline.json`)
-- Standard camera setup (`CAMERA_STREAM=camera_to_workload.json`)
-- No visual output (`RENDER_MODE=0`)
-
-### Environment Variables Reference
-
-| Category | Variable | Description | Common Values |
-|----------|----------|-------------|---------------|
-| **Display** | `RENDER_MODE` | Show/hide visual output | `0` (headless), `1` (visual) |
-| **Performance** | `PIPELINE_COUNT` | Number of parallel pipeline instances | `1`, `2`, `4` (higher = more stress) |
-| **Hardware** | `WORKLOAD_DIST` | Target processing hardware | `workload_to_pipeline_cpu.json`, `workload_to_pipeline_gpu.json`, `workload_to_pipeline_gpu-npu.json` |  
-| **Camera Setup** | `CAMERA_STREAM` | Camera configuration | `camera_to_workload.json`, `camera_to_workload_full.json` |
-| **Build** | `REGISTRY` | Use pre-built vs local images | `true` (faster), `false` (custom builds) |
-
-| **Build** | `REGISTRY` | Use pre-built vs local images | `true` (faster), `false` (custom builds) |
-
-## Workload Configuration Options
-
-### Camera Stream Configurations
-
-**Standard Setup** (`camera_to_workload.json`):
-| Camera | Workloads |
-|:-------|:----------|
-| cam1 | items_in_basket + multi_product_identification |
-| cam2 | hidden_items + product_switching |
-| cam3 | fake_scan_detection |
-
-**Full Workload Testing** (`camera_to_workload_full.json`):
-| Camera | Workload |
-|:-------|:---------|
-| cam1 | items_in_basket |
-| cam2 | hidden_items |
-| cam3 | fake_scan_detection |
-| cam4 | multi_product_identification |
-| cam5 | product_switching |
-| cam6 | sweet_heartening |
-
-### Hardware Distribution Options
-
-| Configuration | File | Best For |
-|:--------------|:-----|:---------|
-| **CPU Only** | `workload_to_pipeline_cpu.json` | Testing, development environments |
-| **GPU Only** | `workload_to_pipeline_gpu.json` | Production, high performance |
-| **Mixed GPU/NPU** | `workload_to_pipeline_gpu-npu.json` | Latest Intel hardware |
-| **Heterogeneous** | `workload_to_pipeline_hetero.json` | Maximum performance across all hardware |
-| **Default Mixed** | `workload_to_pipeline.json` | Balanced CPU/GPU/NPU distribution |
-
-## Advanced Performance Testing (15-30 minutes)
-
-### GPU Performance Testing
-```bash
-make benchmark WORKLOAD_DIST=workload_to_pipeline_gpu.json CAMERA_STREAM=camera_to_workload_full.json
-```
-
-### Multi-Pipeline Stress Testing
-```bash
-# Test with 2 parallel pipelines
-make PIPELINE_COUNT=2 benchmark
-
-# High stress test with 4 pipelines
-make PIPELINE_COUNT=4 benchmark
-```
-
-### Custom Hardware Configuration
-```bash
-# Test heterogeneous workload distribution
-make benchmark WORKLOAD_DIST=workload_to_pipeline_hetero.json CAMERA_STREAM=camera_to_workload_full.json REGISTRY=false
-```
-
-### Automated Self-Checkout Performance
-```bash
-# Object detection workload
-CAMERA_STREAM=camera_to_workload_asc_object_detection.json WORKLOAD_DIST=workload_to_pipeline_asc_object_detection_gpu.json make benchmark
-
-# Age verification workload  
-CAMERA_STREAM=camera_to_workload_asc_age_verification.json WORKLOAD_DIST=workload_to_pipeline_asc_age_verification_gpu.json make benchmark
-```
-
-## Viewing Results
-
-### Generate Consolidated Metrics
-```bash
-make consolidate-metrics
-```
-
-**Output**: `benchmark/metrics.csv` containing:
-- FPS (frames per second) for each pipeline
-- CPU/GPU/NPU utilization percentages  
-- Memory usage statistics
-- Power consumption data
-- Latency measurements
-
-### View Results
-```bash
-cat benchmark/metrics.csv
-```
 
 ## Stream Density Testing (30+ minutes)
 
@@ -169,7 +62,55 @@ make PIPELINE_SCRIPT=yolo11n_effnetb0.sh TARGET_FPS=13.5 benchmark-stream-densit
 Total averaged FPS per stream: 15.210442307692306 for 26 pipeline(s)
 ```
 
+## Workload Configuration Options
+
+### Camera Stream Configurations
+
+**Standard Setup** (`camera_to_workload.json`):
+| Camera | Workloads |
+|:-------|:----------|
+| cam1 | items_in_basket + multi_product_identification |
+| cam2 | hidden_items + product_switching |
+| cam3 | fake_scan_detection |
+
+**Full Workload Testing** (`camera_to_workload_full.json`):
+| Camera | Workload |
+|:-------|:---------|
+| cam1 | items_in_basket |
+| cam2 | hidden_items |
+| cam3 | fake_scan_detection |
+| cam4 | multi_product_identification |
+| cam5 | product_switching |
+| cam6 | sweet_heartening |
+
+### Hardware Distribution Options
+
+| Configuration | File | Best For |
+|:--------------|:-----|:---------|
+| **CPU Only** | `workload_to_pipeline_cpu.json` | Testing, development environments |
+| **GPU Only** | `workload_to_pipeline_gpu.json` | Production, high performance |
+| **Mixed GPU/NPU** | `workload_to_pipeline_gpu-npu.json` | Latest Intel hardware |
+| **Heterogeneous** | `workload_to_pipeline_hetero.json` | Maximum performance across all hardware |
+| **Default Mixed** | `workload_to_pipeline.json` | Balanced CPU/GPU/NPU distribution |
+
 ## Visualization & Analysis
+
+### Generate Consolidated Metrics
+```bash
+make consolidate-metrics
+```
+
+**Output**: `benchmark/metrics.csv` containing:
+- FPS (frames per second) for each pipeline
+- CPU/GPU/NPU utilization percentages  
+- Memory usage statistics
+- Power consumption data
+- Latency measurements
+
+### View Results
+```bash
+cat benchmark/metrics.csv
+```
 
 ### Generate Performance Graphs
 ```bash
